@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const blogRoutes = require('./routes/blogRoutes');
 const userRoutes = require('./routes/userRoutes')
+const jwt = require('jsonwebtoken')
 
 require('dotenv').config();
 const connectDB = require('./db')

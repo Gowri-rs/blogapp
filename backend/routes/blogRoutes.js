@@ -1,6 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const blogModel = require("../models/blogModel")
+const jwt = require("jsonwebtoken");
+
+//adding middleware
+function verifyToken(req,res,next) {
+    let token=req.headers.token;
+    try {
+        if(!token) throw "Unauthorized Access"
+        let payload =jwt.verify(token,"secret")
+        if(!payload) throw "Unauthorized Access"
+        next()
+
+    } catch (error) {
+        res.json({message:error})
+    }
+    
+}
 
 router.get('/', async (req,res) => {
     try {
@@ -21,7 +37,7 @@ router.get('/', async (req,res) => {
     
 });
 
-router.post('/add', async(req,res)=>{
+router.post('/add',verifyToken, async(req,res)=>{
     try {
         const {title,description,imageUrl} = req.body;
 
@@ -38,7 +54,7 @@ router.post('/add', async(req,res)=>{
     }
 })
 
-router.put('/updation/:id', async (req,res) => {
+router.put('/updation/:id',verifyToken, async (req,res) => {
     try {
         const {id} = req.params;
         const {title,description,imageUrl} = req.body;
@@ -68,7 +84,7 @@ router.get('/:id', async (req,res) => {
     
 })
 
-router.delete('/deletion/:id', async (req,res) => {
+router.delete('/deletion/:id',verifyToken, async (req,res) => {
     try {
         const {id} = req.params;
         const blog = await blogModel.findByIdAndDelete(id);

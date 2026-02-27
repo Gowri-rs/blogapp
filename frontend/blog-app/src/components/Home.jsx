@@ -9,11 +9,13 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid, Box } from "@mui/material";
+import axiosInstance from "../../axiosinterceptor";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
+ 
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("token");
   // FETCH BLOGS
   const fetchBlogs = async () => {
     try {
@@ -31,7 +33,7 @@ const Home = () => {
   // DELETE BLOG
   const deleteBlog = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/blog/deletion/${id}`);
+      await axiosInstance.delete(`http://localhost:3000/blog/deletion/${id}`);
       setBlogs(blogs.filter(blog => blog._id !== id));
     } catch (error) {
       console.log("Delete failed", error);
@@ -41,14 +43,14 @@ const Home = () => {
   return (
     <>
       {/* ADD BLOG BUTTON */}
-      <Box sx={{ textAlign: "center", mt: 2 }}>
+      {/* <Box sx={{ textAlign: "center", mt: 2 }}>
         <Button
           variant="contained"
           onClick={() => navigate("/add")}
         >
           ADD BLOG
         </Button>
-      </Box>
+      </Box> */}
 
       {/* BLOG CARDS */}
       <Grid container spacing={3} padding={3}>
@@ -72,6 +74,9 @@ const Home = () => {
               </CardContent>
 
               <CardActions>
+                {token && (
+                
+                <>
                 <Button
                   size="small"
                   onClick={() => navigate("/add", { state: blog })}
@@ -86,6 +91,8 @@ const Home = () => {
                 >
                   DELETE
                 </Button>
+                </>
+                )}
               </CardActions>
             </Card>
           </Grid>

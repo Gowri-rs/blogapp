@@ -1,22 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const userModel = require('../models/userModel');
-
+const jwt = require("jsonwebtoken");
 
 router.post('/login', async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, password } = req.body;
 
     //  Validate input
-    if (!username || !email || !password) {
+    if (!username || !password) {
       return res.status(400).send({
         success: false,
-        message: "Username, email and password are required"
+        message: "Username and password are required"
       });
     }
 
     // Find user with username + email
-    const user = await userModel.findOne({ username, email });
+    const user = await userModel.findOne({ username });
 
     if (!user) {
       return res.status(404).send({
@@ -33,12 +33,16 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    // Success
-    return res.status(200).send({
-      success: true,
-      message: "Login successful",
-      user
-    });
+    //Success
+    // return res.status(200).send({
+    //   success: true,
+    //   message: "Login successful",
+    //   user
+    // });
+
+    const payload = {uname:req.body.username, pwd:req.body.password};
+    const token = jwt.sign(payload, "secret");
+    res.status(200).send({message:"login successsful", usertoken:token,success:true})
 
   } catch (error) {
     console.log(error);

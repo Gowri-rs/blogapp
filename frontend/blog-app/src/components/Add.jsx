@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
+import axiosInstance from "../../axiosinterceptor";
 
 const Add = () => {
   const navigate = useNavigate();
@@ -38,14 +39,14 @@ const Add = () => {
     try {
       if (blog) {
         //  UPDATE
-        await axios.put(
+        await axiosInstance.put(
           `http://localhost:3000/blog/updation/${blog._id}`,
           inputs
         );
         alert("Blog updated successfully");
       } else {
         //  ADD
-        await axios.post(
+        await axiosInstance.post(
           "http://localhost:3000/blog/add",
           inputs
         );
