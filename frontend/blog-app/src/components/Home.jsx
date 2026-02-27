@@ -19,7 +19,7 @@ const Home = () => {
   // FETCH BLOGS
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/blog");
+      const res = await axios.get("/api/blog");
       setBlogs(res.data.blogs);
     } catch (error) {
       console.log(error);
@@ -33,7 +33,7 @@ const Home = () => {
   // DELETE BLOG
   const deleteBlog = async (id) => {
     try {
-      await axiosInstance.delete(`http://localhost:3000/blog/deletion/${id}`);
+      await axiosInstance.delete(`/api/blog/deletion/${id}`);
       setBlogs(blogs.filter(blog => blog._id !== id));
     } catch (error) {
       console.log("Delete failed", error);

@@ -52,7 +52,7 @@ const handleSubmit = (e) => {
   e.preventDefault();
 
   axios
-    .post("http://localhost:3000/user/login", inputs)
+    .post("/api/user/login", inputs)
     .then((response) => {
       alert(response.data.message);
 

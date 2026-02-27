@@ -40,14 +40,14 @@ const Add = () => {
       if (blog) {
         //  UPDATE
         await axiosInstance.put(
-          `http://localhost:3000/blog/updation/${blog._id}`,
+          `/api/blog/updation/${blog._id}`,
           inputs
         );
         alert("Blog updated successfully");
       } else {
         //  ADD
         await axiosInstance.post(
-          "http://localhost:3000/blog/add",
+          "/api/blog/add",
           inputs
         );
         alert("Blog added successfully");
